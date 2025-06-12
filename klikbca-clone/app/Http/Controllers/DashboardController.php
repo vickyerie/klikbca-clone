@@ -79,4 +79,12 @@ class DashboardController extends Controller
             'description' => 'Transfer dari ' . $fromUser->username
         ]);
     }
+
+    public function mutasi()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $transactions = $user->transactions()->latest()->get();
+        return view('mutasi', compact('transactions'));
+    }
 }
