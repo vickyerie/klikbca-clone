@@ -23,4 +23,60 @@ class DashboardController extends Controller
         $saldo = Auth::user()->saldo;
         return view('saldo', compact('saldo'));
     }
+
+    public function transfer()
+    {
+        return view('transfer');
+    }
+
+    public function processTransfer(Request $request)
+    {
+        $request->validate([
+            'to_username' => 'required',
+            'amount' => 'required|numeric|min:1',
+        ]);
+
+        $fromUser = Auth::user();
+        $toUser = User::where('username', $request->to_username)->first();
+
+        if (!$fromUser) {
+            return redirect('/login')->withErrors(['msg' => 'Silakan login terlebih dahulu']);
+        }
+
+        if (!$toUser) {
+            return back()->withErrors(['to_username' => 'User tujuan tidak ditemukan']);
+        }
+
+        if ($fromUser->saldo < $request->amount) {
+            return back()->withErrors(['amount' => 'Saldo tidak cukup']);
+        }
+
+    // Update saldo langsung di database
+        User::where('id', $fromUser->id)->update([
+            'saldo' => DB::raw("saldo - {$request->amount}")
+        ]);
+        User::where('id', $toUser->id)->update([
+            'saldo' => DB::raw("saldo + {$request->amount}")
+        ]);
+
+        Transfer::create([
+            'from_user_id' => $fromUser->id,
+            'to_user_id' => $toUser->id,
+            'amount' => $request->amount
+        ]);
+
+        Transaction::create([
+            'user_id' => $fromUser->id,
+            'type' => 'debit',
+            'amount' => $request->amount,
+            'description' => 'Transfer ke ' . $toUser->username
+        ]);
+
+        Transaction::create([
+            'user_id' => $toUser->id,
+            'type' => 'kredit',
+            'amount' => $request->amount,
+            'description' => 'Transfer dari ' . $fromUser->username
+        ]);
+    }
 }
