@@ -17,4 +17,10 @@ class DashboardController extends Controller
     {
         return view('dashboard');
     }
+
+    public function saldo()
+    {
+        $saldo = Auth::user()->saldo;
+        return view('saldo', compact('saldo'));
+    }
 }
