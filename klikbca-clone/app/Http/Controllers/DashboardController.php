@@ -78,13 +78,58 @@ class DashboardController extends Controller
             'amount' => $request->amount,
             'description' => 'Transfer dari ' . $fromUser->username
         ]);
-    }
 
+        return redirect('/mutasi');
+    }
     public function mutasi()
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
         $transactions = $user->transactions()->latest()->get();
         return view('mutasi', compact('transactions'));
+    }
+
+    // Menampilkan form pembayaran
+    public function pembayaran()
+    {
+        return view('pembayaran');
+    }
+
+    public function processPembayaran(Request $request)
+    {
+        $request->validate([
+            'kategori' => 'required',
+            'nomor' => 'required',
+            'amount' => 'required|numeric|min:1',
+        ]);
+
+        $user = Auth::user();
+
+        if ($user->saldo < $request->amount) {
+            return back()->withErrors(['amount' => 'Saldo tidak cukup untuk melakukan pembayaran.']);
+        }
+
+        // Update saldo pengguna
+        User::where('id', $user->id)->update([
+            'saldo' => DB::raw("saldo - {$request->amount}")
+        ]);
+
+        // Simpan data pembayaran
+        Payment::create([
+            'user_id' => $user->id,
+            'kategori' => $request->kategori,
+            'nomor' => $request->nomor,
+            'amount' => $request->amount
+        ]);
+
+        // Catat transaksi
+        Transaction::create([
+            'user_id' => $user->id,
+            'type' => 'debit',
+            'amount' => $request->amount,
+            'description' => 'Pembayaran ' . ucfirst($request->kategori)
+        ]);
+
+        return redirect('/mutasi')->with('success', 'Pembayaran berhasil');
     }
 }
