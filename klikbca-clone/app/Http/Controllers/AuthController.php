@@ -41,4 +41,27 @@ class AuthController extends Controller
         return redirect('/login');
     }
 
+        public function showRegister()
+    {
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|unique:users,username',
+            'password' => 'required|min:6',
+        ]);
+
+        $user = User::create([
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'saldo' => 0 // saldo default 0
+        ]);
+
+        Auth::login($user);
+
+        return redirect('/dashboard');
+    }
+
 }
