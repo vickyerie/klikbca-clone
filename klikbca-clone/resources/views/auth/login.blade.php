@@ -25,6 +25,14 @@
         button {
             width: 100%; background-color: #0066cc; color: white; padding: 10px; border: none;
         }
+        .register-link {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .register-link a {
+            color: #0066cc;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -44,6 +52,10 @@
 
             <button type="submit">Login</button>
         </form>
+
+        <div class="register-link">
+            Belum punya akun? <a href="/register">Daftar di sini</a>
+        </div>
     </div>
 </body>
 </html>
