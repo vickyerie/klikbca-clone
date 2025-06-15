@@ -82,13 +82,26 @@ class DashboardController extends Controller
         return view('success', ['message' => 'Transfer berhasil']);
 
     }
-    public function mutasi()
+
+    public function mutasi(Request $request)
     {
-        /** @var \App\Models\User $user */
         $user = Auth::user();
-        $transactions = $user->transactions()->latest()->get();
-        return view('mutasi', compact('transactions'));
+        $transactions = $user->transactions()->latest();
+
+        if ($request->filled('from') && $request->filled('to')) {
+            $transactions->whereBetween('created_at', [
+                $request->from . ' 00:00:00',
+                $request->to . ' 23:59:59'
+            ]);
+        } elseif ($request->filled('from')) {
+            $transactions->whereDate('created_at', $request->from);
+        }
+
+        return view('mutasi', [
+            'transactions' => $transactions->get()
+        ]);
     }
+
 
     // Menampilkan form pembayaran
     public function pembayaran()
