@@ -45,6 +45,7 @@
             margin-top: 5px;
             border-radius: 6px;
             border: 1px solid #ccc;
+            box-sizing: border-box;
         }
 
         .error {
