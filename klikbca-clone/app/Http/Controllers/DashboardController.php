@@ -79,7 +79,8 @@ class DashboardController extends Controller
             'description' => 'Transfer dari ' . $fromUser->username
         ]);
 
-        return redirect('/mutasi');
+        return view('success', ['message' => 'Transfer berhasil']);
+
     }
     public function mutasi()
     {
@@ -130,6 +131,7 @@ class DashboardController extends Controller
             'description' => 'Pembayaran ' . ucfirst($request->kategori)
         ]);
 
-        return redirect('/mutasi')->with('success', 'Pembayaran berhasil');
+        return view('success', ['message' => 'Pembayaran berhasil']);
+
     }
 }
