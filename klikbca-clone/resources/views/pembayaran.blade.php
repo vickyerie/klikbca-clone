@@ -39,7 +39,7 @@
             font-weight: bold;
         }
 
-        select, input[type="text"], input[type="number"] {
+        select, input[type="text"], input[type="number"], input[type="password"] {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -65,7 +65,8 @@
 
         .error {
             color: red;
-            margin-top: 10px;
+            font-size: 14px;
+            margin-top: 5px;
         }
 
         .back-link {
@@ -88,30 +89,37 @@
     <div class="container">
         <h3>Form Pembayaran</h3>
 
-        @if ($errors->any())
-            <div class="error">
-                @foreach ($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
-
         <form action="/pembayaran" method="POST">
             @csrf
 
             <label for="kategori">Kategori:</label>
             <select name="kategori" required>
                 <option value="">-- Pilih --</option>
-                <option value="listrik">Listrik</option>
-                <option value="air">Air</option>
-                <option value="internet">Internet</option>
+                <option value="listrik" {{ old('kategori') == 'listrik' ? 'selected' : '' }}>Listrik</option>
+                <option value="air" {{ old('kategori') == 'air' ? 'selected' : '' }}>Air</option>
+                <option value="internet" {{ old('kategori') == 'internet' ? 'selected' : '' }}>Internet</option>
             </select>
+            @error('kategori')
+                <div class="error">{{ $message }}</div>
+            @enderror
 
             <label for="nomor">Nomor Pelanggan:</label>
-            <input type="text" name="nomor" required>
+            <input type="text" name="nomor" value="{{ old('nomor') }}" required>
+            @error('nomor')
+                <div class="error">{{ $message }}</div>
+            @enderror
 
             <label for="amount">Jumlah Bayar:</label>
-            <input type="number" name="amount" required>
+            <input type="number" name="amount" value="{{ old('amount') }}" required>
+            @error('amount')
+                <div class="error">{{ $message }}</div>
+            @enderror
+
+            <label for="password">Password Anda:</label>
+            <input type="password" name="password" required>
+            @error('password')
+                <div class="error">{{ $message }}</div>
+            @enderror
 
             <button type="submit">Bayar</button>
         </form>

@@ -39,12 +39,24 @@
             font-weight: bold;
         }
 
-        input[type="text"], input[type="number"] {
+        input[type="text"], input[type="number"], input[type="password"] {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
             border-radius: 6px;
             border: 1px solid #ccc;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .success {
+            color: green;
+            margin-top: 10px;
+            font-weight: bold;
         }
 
         button {
@@ -61,19 +73,6 @@
 
         button:hover {
             background-color: #001f66;
-        }
-
-        .error, .success {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        .error {
-            color: red;
-        }
-
-        .success {
-            color: green;
         }
 
         .back-link {
@@ -105,11 +104,23 @@
         <form action="/transfer" method="POST">
             @csrf
 
-            <label for="tujuan">Username Tujuan:</label>
-            <input type="text" name="to_username" required>
+            <label for="to_username">Username Tujuan:</label>
+            <input type="text" name="to_username" value="{{ old('to_username') }}" required>
+            @error('to_username')
+                <div class="error">{{ $message }}</div>
+            @enderror
 
-            <label for="jumlah">Jumlah Transfer (Rp):</label>
-            <input type="number" name="amount" min="1" required>
+            <label for="amount">Jumlah Transfer (Rp):</label>
+            <input type="number" name="amount" min="1" value="{{ old('amount') }}" required>
+            @error('amount')
+                <div class="error">{{ $message }}</div>
+            @enderror
+
+            <label for="password">Password Anda:</label>
+            <input type="password" name="password" required>
+            @error('password')
+                <div class="error">{{ $message }}</div>
+            @enderror
 
             <button type="submit">Kirim</button>
         </form>
