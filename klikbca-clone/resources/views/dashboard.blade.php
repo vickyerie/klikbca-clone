@@ -14,7 +14,7 @@
             color: white;
             padding: 20px;
             text-align: center;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
         }
 
@@ -22,21 +22,24 @@
             padding: 40px;
             max-width: 1000px;
             margin: auto;
+            text-align: center;
         }
 
         .welcome {
-            font-size: 18px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #003399;
             margin-bottom: 30px;
         }
 
         .menu {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
+            margin-bottom: 30px;
         }
 
         .menu a {
-            flex: 1 1 200px;
             background-color: white;
             color: #003399;
             text-align: center;
@@ -53,7 +56,7 @@
         }
 
         .logout-form {
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         .logout-form button {
@@ -69,6 +72,12 @@
         .logout-form button:hover {
             background-color: #990000;
         }
+
+        footer {
+            margin-top: 40px;
+            color: #666;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -78,16 +87,20 @@
         <div class="welcome">Selamat Datang, {{ auth()->user()->username }}</div>
 
         <div class="menu">
-            <a href="/saldo">Cek Saldo</a>
-            <a href="/transfer">Transfer</a>
-            <a href="/mutasi">Mutasi Rekening</a>
-            <a href="/pembayaran">Pembayaran</a>
+            <a href="/saldo">💰 Cek Saldo</a>
+            <a href="/transfer">💸 Transfer</a>
+            <a href="/mutasi">📄 Mutasi Rekening</a>
+            <a href="/pembayaran">🧾 Pembayaran</a>
         </div>
 
         <form action="/logout" method="POST" class="logout-form">
             @csrf
             <button type="submit">Logout</button>
         </form>
+
+        <footer>
+            © 2025 KlikBCA Clone – Terima kasih telah menggunakan layanan kami.
+        </footer>
     </div>
 </body>
 </html>
