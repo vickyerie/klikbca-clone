@@ -1,39 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cek Saldo - KlikBCA</title>
+    <title>Cek Saldo</title>
     <style>
         body {
-            font-family: Arial;
-            background-color: #f0f4f7;
-            padding: 40px;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #e6f0fa;
+        }
+
+        .navbar {
+            background-color: #003399;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             text-align: center;
         }
-        .saldo-box {
-            background-color: white;
-            border-radius: 8px;
-            display: inline-block;
-            padding: 30px 50px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+        .label {
+            font-size: 18px;
+            margin-bottom: 10px;
         }
-        .jumlah {
-            font-size: 28px;
-            color: #0066cc;
-            margin-top: 15px;
+
+        .amount {
+            font-size: 36px;
+            color: #003399;
+            font-weight: bold;
         }
-        a {
+
+        a.button {
             display: inline-block;
-            margin-top: 20px;
-            color: #0066cc;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #003399;
+            color: white;
             text-decoration: none;
+            border-radius: 6px;
+        }
+
+        a.button:hover {
+            background-color: #001f66;
         }
     </style>
 </head>
 <body>
-    <div class="saldo-box">
-        <h2>Saldo Anda</h2>
-        <div class="jumlah">Rp {{ number_format($saldo, 2, ',', '.') }}</div>
-        <a href="/dashboard">← Kembali ke Dashboard</a>
+    <div class="navbar">KlikBCA - Cek Saldo</div>
+
+    <div class="container">
+        <div class="label">Saldo Anda Saat Ini:</div>
+        <div class="amount">Rp {{ number_format(auth()->user()->saldo, 0, ',', '.') }}</div>
+
+        <a href="/dashboard" class="button">Kembali ke Dashboard</a>
     </div>
 </body>
 </html>
