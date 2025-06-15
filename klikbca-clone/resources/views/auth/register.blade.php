@@ -1,24 +1,106 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register - KlikBCA</title>
+    <title>Register KlikBCA</title>
     <style>
-        body { font-family: Arial; background: #f0f4f7; padding: 40px; }
-        .form-box { max-width: 400px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        input, button { width: 100%; padding: 10px; margin-top: 10px; }
-        h2 { text-align: center; }
+        body {
+            background-color: #003399;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .register-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 320px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .register-box img {
+            width: 150px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        h3 {
+            color: #003399;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
-    <div class="form-box">
-        <h2>Register KlikBCA</h2>
-        <form method="POST" action="/register">
+    <div class="register-box">
+        <img src="{{ asset('images/logo-bca.png') }}" alt="Logo BCA">
+        <h3>Register KlikBCA</h3>
+        <form action="/register" method="POST">
             @csrf
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
+
+            <label>Username</label>
+            <input type="text" name="username" required>
+
+            <label>Password</label>
+            <input type="password" name="password" required>
+
+            @if ($errors->any())
+                <p class="error-msg">{{ $errors->first() }}</p>
+            @endif
+
             <button type="submit">Daftar</button>
         </form>
-        <p style="text-align:center;"><a href="/login">Sudah punya akun? Login</a></p>
+
+        <div class="login-link">
+            Sudah punya akun? <a href="/login">Login di sini</a>
+        </div>
     </div>
 </body>
 </html>
