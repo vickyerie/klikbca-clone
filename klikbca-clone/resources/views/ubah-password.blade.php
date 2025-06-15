@@ -1,26 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ubah Password</title>
+    <title>KlikBCA - Ubah Password</title>
     <style>
         body {
-            font-family: Arial;
+            margin: 0;
+            font-family: Arial, sans-serif;
             background-color: #e6f0fa;
-            padding: 40px;
+        }
+
+        .navbar {
+            background-color: #003399;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
         }
 
         .container {
-            max-width: 500px;
-            margin: auto;
-            background: white;
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         h3 {
-            color: #003399;
             text-align: center;
+            color: #003399;
+            margin-bottom: 20px;
         }
 
         label {
@@ -33,64 +43,81 @@
             width: 100%;
             padding: 10px;
             margin-top: 5px;
+            border-radius: 6px;
             border: 1px solid #ccc;
-            border-radius: 5px;
             box-sizing: border-box;
         }
 
         button {
-            margin-top: 25px;
             width: 100%;
+            margin-top: 25px;
             background-color: #003399;
             color: white;
-            border: none; padding: 12px;
+            padding: 12px;
+            border: none;
             border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
         }
 
-        .message {
-            margin-top: 15px;
-            text-align: center;
-            font-weight: bold;
+        button:hover {
+            background-color: #001f66;
         }
 
         .error {
             color: red;
+            margin-top: 10px;
         }
 
         .success {
             color: green;
+            margin-top: 10px;
+            text-align: center;
         }
 
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .back-link a {
+            color: #003399;
+            text-decoration: none;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+    <div class="navbar">KlikBCA - Ubah Password</div>
+
     <div class="container">
-        <h3>Ubah Password</h3>
+        <h3>Form Ubah Password</h3>
 
         @if (session('error'))
-            <div class="message error">{{ session('error') }}</div>
+            <div class="error">{{ session('error') }}</div>
         @elseif (session('success'))
-            <div class="message success">{{ session('success') }}</div>
+            <div class="success">{{ session('success') }}</div>
         @endif
 
         <form method="POST" action="/ubah-password">
             @csrf
-            <label>Password Saat Ini:</label>
+
+            <label for="current_password">Password Saat Ini:</label>
             <input type="password" name="current_password" required>
 
-            <label>Password Baru:</label>
+            <label for="new_password">Password Baru:</label>
             <input type="password" name="new_password" required>
 
-            <label>Konfirmasi Password Baru:</label>
+            <label for="new_password_confirmation">Konfirmasi Password Baru:</label>
             <input type="password" name="new_password_confirmation" required>
 
             <button type="submit">Simpan Perubahan</button>
         </form>
 
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="/dashboard" style="color: #003399; font-weight: bold; text-decoration: none;">Kembali ke Dashboard</a>
+        <div class="back-link">
+            <a href="/dashboard">Kembali ke Dashboard</a>
         </div>
     </div>
 </body>
