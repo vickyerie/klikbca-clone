@@ -27,6 +27,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/mutasi', [DashboardController::class, 'mutasi']);
     Route::get('/pembelian', [DashboardController::class, 'pembelian']);
     Route::post('/pembelian', [DashboardController::class, 'processPembelian']);
+    Route::get('/ubah-password', [DashboardController::class, 'showChangePasswordForm'])->middleware('auth');
+    Route::post('/ubah-password', [DashboardController::class, 'changePassword'])->middleware('auth');
+
 
 });
 
