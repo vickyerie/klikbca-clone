@@ -34,6 +34,7 @@ class DashboardController extends Controller
         $request->validate([
             'to_username' => 'required',
             'amount' => 'required|numeric|min:1',
+            'password' => 'required',
         ]);
 
         $fromUser = Auth::user();
@@ -41,6 +42,10 @@ class DashboardController extends Controller
 
         if (!$fromUser) {
             return redirect('/login')->withErrors(['msg' => 'Silakan login terlebih dahulu']);
+        }
+
+        if (!\Hash::check($request->password, $fromUser->password)) {
+            return back()->withErrors(['password' => 'Password salah']);
         }
 
         if (!$toUser) {
@@ -51,7 +56,7 @@ class DashboardController extends Controller
             return back()->withErrors(['amount' => 'Saldo tidak cukup']);
         }
 
-    // Update saldo langsung di database
+        // Update saldo langsung di database
         User::where('id', $fromUser->id)->update([
             'saldo' => DB::raw("saldo - {$request->amount}")
         ]);
@@ -80,7 +85,6 @@ class DashboardController extends Controller
         ]);
 
         return view('success', ['message' => 'Transfer berhasil']);
-
     }
 
     public function mutasi(Request $request)
@@ -115,9 +119,14 @@ class DashboardController extends Controller
             'kategori' => 'required',
             'nomor' => 'required',
             'amount' => 'required|numeric|min:1',
+            'password' => 'required',
         ]);
 
         $user = Auth::user();
+
+        if (!\Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'Password salah']);
+        }
 
         if ($user->saldo < $request->amount) {
             return back()->withErrors(['amount' => 'Saldo tidak cukup untuk melakukan pembayaran.']);
@@ -145,6 +154,5 @@ class DashboardController extends Controller
         ]);
 
         return view('success', ['message' => 'Pembayaran berhasil']);
-
     }
 }
