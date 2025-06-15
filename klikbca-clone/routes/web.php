@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/pembayaran', [DashboardController::class, 'pembayaran'])->middleware('auth');
     Route::post('/pembayaran', [DashboardController::class, 'processPembayaran'])->middleware('auth');
     Route::get('/mutasi', [DashboardController::class, 'mutasi']);
+    Route::get('/pembelian', [DashboardController::class, 'pembelian']);
+    Route::post('/pembelian', [DashboardController::class, 'processPembelian']);
 
 });
 
