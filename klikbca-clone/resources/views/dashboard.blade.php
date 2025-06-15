@@ -28,13 +28,13 @@
         .welcome {
             font-size: 24px;
             font-weight: bold;
-            color: #003399;
+            color: #000000;
             margin-bottom: 30px;
         }
 
         .menu {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -81,17 +81,20 @@
     </style>
 </head>
 <body>
-    <div class="navbar">KlikBCA</div>
+    <div class="navbar">
+        <img src="{{ asset('images/KlikBCA-Logo.png') }}" alt="KlikBCA Logo" style="height: 60px;">
+    </div>
 
     <div class="container">
-        <div class="welcome">Selamat Datang, {{ auth()->user()->username }}</div>
+        <div class="welcome">Selamat Datang di KlikBCA Bisnis, {{ auth()->user()->username }}</div>
 
         <div class="menu">
             <a href="/saldo">💰 Cek Saldo</a>
             <a href="/transfer">💸 Transfer</a>
             <a href="/mutasi">📄 Mutasi Rekening</a>
             <a href="/pembayaran">🧾 Pembayaran</a>
-            <a href="/pembelian">🛒 Pembelian</a> {{-- Tambahan fitur pembelian --}}
+            <a href="/pembelian">🛒 Pembelian</a>
+            <a href="/ubah-password">🔒 Ubah Password</a>
         </div>
 
         <form action="/logout" method="POST" class="logout-form">
@@ -100,6 +103,18 @@
         </form>
 
         <footer>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            Natasya Agustine Sadhi – 535240001 <br>
+            Patricia Natania – 535240009 <br>
+            Lyvia Reva Ruganda – 535240028 <br>
+            Vicky Erie Sukardi – 535249101 <br>
+            <br>
             © 2025 KlikBCA Clone – Terima kasih telah menggunakan layanan kami.
         </footer>
     </div>

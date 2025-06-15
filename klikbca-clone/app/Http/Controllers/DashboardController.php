@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Transfer;
 use App\Models\Transaction;
 use App\Models\Payment;
-use Illuminate\Support\Facades\DB;
 use App\Models\Purchase;
-use Illuminate\Support\Facades\Hash;
-
 
 class DashboardController extends Controller
 {
@@ -202,4 +201,27 @@ class DashboardController extends Controller
 
         return view('success', ['message' => 'Pembelian berhasil']);
     }
+    public function showChangePasswordForm()
+    {
+        return view('ubah-password');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        if (!Hash::check($request->current_password, Auth::user()->password)) {
+            return back()->with('error', 'Password saat ini salah.');
+        }
+
+        $user = Auth::user();
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return back()->with('success', 'Password berhasil diubah.');
+    }
+
 }
