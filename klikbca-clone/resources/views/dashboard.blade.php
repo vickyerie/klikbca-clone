@@ -91,6 +91,7 @@
             <a href="/transfer">💸 Transfer</a>
             <a href="/mutasi">📄 Mutasi Rekening</a>
             <a href="/pembayaran">🧾 Pembayaran</a>
+            <a href="/pembelian">🛒 Pembelian</a> {{-- Tambahan fitur pembelian --}}
         </div>
 
         <form action="/logout" method="POST" class="logout-form">

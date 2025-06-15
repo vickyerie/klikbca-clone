@@ -9,6 +9,8 @@ use App\Models\Transfer;
 use App\Models\Transaction;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
+use App\Models\Purchase;
+use Illuminate\Support\Facades\Hash;
 
 
 class DashboardController extends Controller
@@ -154,5 +156,50 @@ class DashboardController extends Controller
         ]);
 
         return view('success', ['message' => 'Pembayaran berhasil']);
+    }
+
+    public function pembelian()
+    {
+        return view('pembelian');
+    }
+
+    public function processPembelian(Request $request)
+    {
+        $request->validate([
+            'jenis' => 'required|in:pulsa,pln',
+            'nomor' => 'required',
+            'amount' => 'required|numeric|min:1',
+            'password' => 'required',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'Password tidak sesuai.']);
+        }
+
+        if ($user->saldo < $request->amount) {
+            return back()->withErrors(['amount' => 'Saldo tidak cukup.']);
+        }
+
+        User::where('id', $user->id)->update([
+            'saldo' => DB::raw("saldo - {$request->amount}")
+        ]);
+
+        Purchase::create([
+            'user_id' => $user->id,
+            'jenis' => $request->jenis,
+            'nomor' => $request->nomor,
+            'amount' => $request->amount
+        ]);
+
+        Transaction::create([
+            'user_id' => $user->id,
+            'type' => 'debit',
+            'amount' => $request->amount,
+            'description' => 'Pembelian ' . ucfirst($request->jenis)
+        ]);
+
+        return view('success', ['message' => 'Pembelian berhasil']);
     }
 }
