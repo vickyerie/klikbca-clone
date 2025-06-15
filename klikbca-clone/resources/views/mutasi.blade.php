@@ -1,50 +1,87 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mutasi Rekening - KlikBCA</title>
+    <title>Mutasi Rekening</title>
     <style>
         body {
-            font-family: Arial;
-            background-color: #f0f4f7;
-            padding: 40px;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #e6f0fa;
         }
-        .mutasi-box {
+
+        .navbar {
+            background-color: #003399;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
             background-color: white;
             padding: 30px;
-            border-radius: 8px;
-            max-width: 800px;
-            margin: auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
+
+        h3 {
+            color: #003399;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
         }
+
         th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
+            border: 1px solid #ccc;
+            padding: 12px;
             text-align: center;
         }
+
         th {
-            background-color: #0066cc;
+            background-color: #003399;
             color: white;
         }
-        a {
-            display: block;
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .empty {
             text-align: center;
+            font-style: italic;
             margin-top: 20px;
-            color: #0066cc;
+        }
+
+        a.button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background-color: #003399;
+            color: white;
             text-decoration: none;
+            border-radius: 6px;
+        }
+
+        a.button:hover {
+            background-color: #001f66;
         }
     </style>
 </head>
 <body>
-    <div class="mutasi-box">
-        <h2>Mutasi Rekening</h2>
+    <div class="navbar">KlikBCA - Mutasi Rekening</div>
+
+    <div class="container">
+        <h3>Riwayat Transaksi</h3>
 
         @if($transactions->isEmpty())
-            <p style="text-align: center;">Tidak ada transaksi.</p>
+            <div class="empty">Tidak ada transaksi.</div>
         @else
             <table>
                 <thead>
@@ -68,7 +105,9 @@
             </table>
         @endif
 
-        <a href="/dashboard">Kembali ke Dashboard</a>
+        <div style="text-align: center;">
+            <a href="/dashboard" class="button">Kembali ke Dashboard</a>
+        </div>
     </div>
 </body>
 </html>
